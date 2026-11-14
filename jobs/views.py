@@ -7,6 +7,7 @@ from rest_framework import status
 from .analyzer import find_location, find_job_type, find_skills, fit_score, MY_SKILLS
 from rest_framework import generics
 from .serializers import JobApplicationSerializer, AnalyzeSerializer
+from django.shortcuts import render
 
 
 class JobApplicationViewSet(viewsets.ModelViewSet):
@@ -36,3 +37,7 @@ class AnalyzeView(APIView):
             "skills_missing": missing,
             "fit_score": fit_score(skills),        
         })
+
+
+def home(request):
+    return render(request, "jobs/index.html")
