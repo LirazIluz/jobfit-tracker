@@ -20,7 +20,15 @@ automates this.
 
 ## Tech Stack
 
-Python · Django · Django REST Framework · SQLite · pytest · Git
+Python · Django · Django REST Framework · SQLite · pytest · Git · Docker · GitHub Actions
+
+## API Endpoints
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET, POST | `/api/jobs/` | List all saved jobs / add a new job |
+| GET, PUT, PATCH, DELETE | `/api/jobs/<id>/` | View, update or delete a job |
+| POST | `/api/analyze/` | Analyze a job posting text |
 
 ## Example
 
@@ -56,6 +64,16 @@ python manage.py runserver
 
 Then open http://127.0.0.1:8000/api/jobs/
 
+To analyze a full job posting, open http://127.0.0.1:8000/api/analyze/
+and paste the posting into the HTML form.
+
+## Run with Docker
+
+```bash
+docker build -t jobfit-tracker .
+docker run -p 8000:8000 jobfit-tracker
+```
+
 ## Running Tests
 
 ```bash
@@ -78,5 +96,5 @@ that end with non-word characters, such as `c++` and `c#`.
 ## Roadmap
 
 - [ ] Web interface (HTML/CSS/JavaScript)
-- [ ] Docker and GitHub Actions CI
+- [x] Docker and GitHub Actions CI
 - [ ] AI-based posting analysis (LLM)
