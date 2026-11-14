@@ -1,4 +1,3 @@
-# ---------- Data ----------
 
 CITIES = [
     "Haifa", "Yokneam", "Tel Aviv", "Beer Sheva", "Jerusalem", "Herzliya",
@@ -67,17 +66,3 @@ def fit_score(skills_found):
         if skill in skills_found:
             count += 1
     return round(count / len(skills_found) * 100)
-
-# ---------- Quick manual test ----------
-
-if __name__ == "__main__":
-    sample = """
-    Software Engineering Student - Yokneam, Part time.
-    Developing Linux user-space applications in C++.
-    Knowledge in Python / Bash - advantage. Experience with Git and Verilog.
-    """
-    skills = find_skills(sample)
-    print("Location:", find_location(sample))
-    print("Job type:", find_job_type(sample))
-    print("Skills:  ", skills)
-    print("Fit:     ", fit_score(skills), "%")
