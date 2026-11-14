@@ -19,13 +19,17 @@ KNOWN_SKILLS = [
     "python", "c++", "java", "c#", "javascript", "typescript", "sql",
     "linux", "git", "docker", "bash", "networking", "tcp/ip",
     "multithreading", "oop", "rest", "django", "react", "verilog",
-    "kubernetes", "aws", "machine learning", "embedded", "jenkins", "cmake",
+    "kubernetes", "aws", "machine learning", "embedded", "jenkins", "cmake", 
+    "c", "test automation", "automation", "testing", "debugging",
+    "ci/cd", "pytest", "junit", "api", "assembly", "robot framework",
 ]
 
 # Skills I have
 MY_SKILLS = [
     "python", "c++", "c", "java", "typescript", "sql", "linux", "git", "docker",
     "bash", "networking", "tcp/ip", "multithreading", "oop", "rest", "django",
+    "c", "test automation", "automation", "testing", "debugging",
+    "ci/cd", "pytest", "junit", "api", "assembly",
 ]
 
 
@@ -53,7 +57,7 @@ def find_skills(text):
     text_lower = text.lower()
     found = []
     for skill in KNOWN_SKILLS: 
-        pattern = r"(?<![a-z0-9])" + re.escape(skill) + r"(?![a-z0-9])"
+        pattern = r"(?<![a-z0-9])" + re.escape(skill) + r"(?![a-z0-9+#])"
         if re.search(pattern, text_lower):
             found.append(skill)
     return found

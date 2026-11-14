@@ -16,7 +16,7 @@ automates this.
 - **Job posting analyzer** – extracts location, job type and required skills from the posting text
 - **Fit score** – calculates how many of the required skills I already have
 - **Auto-fill** – when a job is saved with a description, location, job type and fit score are filled automatically
-- **Automated tests** – 11 tests with pytest (analyzer + API)
+- **Automated tests** – 13 tests with pytest (analyzer + API)
 
 ## Tech Stack
 
@@ -87,11 +87,14 @@ Simple substring matching (`"git" in text`) produced false positives –
 I fixed it using regular expressions with lookarounds:
 
 ```python
-pattern = r"(?<![a-z0-9])" + re.escape(skill) + r"(?![a-z0-9])"
+pattern = r"(?<![a-z0-9])" + re.escape(skill) + r"(?![a-z0-9+#])"
 ```
 
 I used lookarounds instead of `\b` because `\b` doesn't work for skills
 that end with non-word characters, such as `c++` and `c#`.
+
+Adding "c" as a skill revealed another bug: it was matched inside "c++".
+The tests caught it, and I fixed it by also excluding "+" and "#" after a match.
 
 ## Roadmap
 
