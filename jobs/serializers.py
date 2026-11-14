@@ -23,3 +23,6 @@ class JobApplicationSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("You already saved this job!")
 
         return data
+
+class AnalyzeSerializer(serializers.Serializer):
+    text = serializers.CharField(style={"base_template": "textarea.html"})
