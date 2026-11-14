@@ -1,3 +1,4 @@
+import re
 
 CITIES = [
     "Haifa", "Yokneam", "Tel Aviv", "Beer Sheva", "Jerusalem", "Herzliya",
@@ -23,7 +24,7 @@ KNOWN_SKILLS = [
 
 # Skills I have
 MY_SKILLS = [
-    "python", "c++", "java", "typescript", "sql", "linux", "git", "docker",
+    "python", "c++", "c", "java", "typescript", "sql", "linux", "git", "docker",
     "bash", "networking", "tcp/ip", "multithreading", "oop", "rest", "django",
 ]
 
@@ -51,8 +52,9 @@ def find_skills(text):
     """Return a list of all KNOWN_SKILLS that appear in the text."""
     text_lower = text.lower()
     found = []
-    for skill in KNOWN_SKILLS:
-        if skill in text_lower:
+    for skill in KNOWN_SKILLS: 
+        pattern = r"(?<![a-z0-9])" + re.escape(skill) + r"(?![a-z0-9])"
+        if re.search(pattern, text_lower):
             found.append(skill)
     return found
 
