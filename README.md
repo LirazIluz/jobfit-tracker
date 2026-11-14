@@ -17,10 +17,11 @@ automates this.
 - **Fit score** – calculates how many of the required skills I already have
 - **Auto-fill** – when a job is saved with a description, location, job type and fit score are filled automatically
 - **Automated tests** – 13 tests with pytest (analyzer + API)
+- **Web interface** – paste a job posting, see the fit analysis with colored skill tags, save it, and track all applications in a   table
 
 ## Tech Stack
 
-Python · Django · Django REST Framework · SQLite · pytest · Git · Docker · GitHub Actions
+Python · Django · Django REST Framework · SQLite · pytest · Git · Docker · GitHub Actions · HTML · CSS · JavaScript
 
 ## API Endpoints
 
@@ -98,6 +99,6 @@ The tests caught it, and I fixed it by also excluding "+" and "#" after a match.
 
 ## Roadmap
 
-- [ ] Web interface (HTML/CSS/JavaScript)
+- [x] Web interface (HTML/CSS/JavaScript)
 - [x] Docker and GitHub Actions CI
 - [ ] AI-based posting analysis (LLM)

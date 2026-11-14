@@ -3,8 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <title>JobFit Tracker</title>
+        <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6fb;
+            margin: 0;
+            padding: 40px 16px;
+            color: #222;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+        h1 { margin-top: 0; color: #2b4eff; }
+        textarea, input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            margin-bottom: 10px;
+        }
+        button {
+            background: #2b4eff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        button:hover { background: #1a36c7; }
+
+        .score { font-size: 28px; font-weight: bold; color: #2b4eff; margin: 16px 0 4px; }
+        .tag {
+            display: inline-block;
+            padding: 4px 10px;
+            margin: 3px;
+            border-radius: 12px;
+            font-size: 13px;
+        }
+        .have    { background: #d4f5dd; color: #136c2e; }
+        .missing { background: #fde0e0; color: #a51c1c; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { text-align: left; padding: 10px; border-bottom: 1px solid #eee; }
+        th { background: #f0f2fa; }
+        .status-APPLIED   { color: #2b4eff; font-weight: bold; }
+        .status-INTERVIEW { color: #e08a00; font-weight: bold; }
+        .status-OFFER     { color: #138a36; font-weight: bold; }
+        .status-REJECTED  { color: #a51c1c; }
+    </style>
 </head>
 <body>
+    <div class="container">
     <h1>JobFit Tracker</h1>
     <p>Paste a job posting and get an instant fit analysis.</p>
 
@@ -22,7 +80,7 @@
     <p id="save-message"></p>
 
     <h2>My applications</h2>
-    <table border="1">
+    <table>
         <thead>
             <tr>
                 <th>Company</th>
@@ -34,6 +92,7 @@
         </thead>
         <tbody id="jobs-body"></tbody>
     </table>
+    </div>
 
     <script>
     const button = document.getElementById("analyze-btn");
@@ -52,19 +111,22 @@
         const resultDiv = document.getElementById("result");    
 
         if (!response.ok) {
-            resultDiv.innerHTML = `<p>Error: ${data.error}</p>`;
-            return;
+        resultDiv.innerHTML = `<p>Error: ${data.error}</p>`;
+        return;
         }
 
+        const tags = data.skills_found.map(skill =>
+            data.skills_missing.includes(skill)
+            ? `<span class="tag missing">${skill}</span>`
+            : `<span class="tag have">${skill}</span>`
+        ).join("");
+
         resultDiv.innerHTML = `
-            <p>Location: ${data.location}</p>
-            <p>Job type: ${data.job_type}</p>
-            <p>Fit score: ${data.fit_score}%</p>
-            <p>Skills found: ${data.skills_found.join(", ")}</p>
-            <p>Skills missing: ${data.skills_missing.join(", ")}</p>
+            <p class="score">${data.fit_score}% fit</p>
+            <p>📍 ${data.location || "Unknown"} &nbsp; 💼 ${data.job_type || "Unknown"}</p>
+            <div>${tags}</div>
         `;
     });
-
     const saveButton = document.getElementById("save-btn");
 
     saveButton.addEventListener("click", async () => {
@@ -108,7 +170,7 @@
                     <td>${job.title}</td>
                     <td>${job.location}</td>
                     <td>${job.fit_score !== null ? job.fit_score + "%" : "-"}</td>
-                    <td>${job.status}</td>
+                    <td class="status-${job.status}">${job.status}</td>
                 </tr>
             `;
         }
