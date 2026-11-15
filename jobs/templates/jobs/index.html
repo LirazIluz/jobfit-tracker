@@ -59,6 +59,20 @@
         .status-INTERVIEW { color: #e08a00; font-weight: bold; }
         .status-OFFER     { color: #138a36; font-weight: bold; }
         .status-REJECTED  { color: #a51c1c; }
+
+        select {
+            padding: 4px 8px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-family: inherit;
+        }
+        .delete-btn {
+            background: none;
+            color: #a51c1c;
+            padding: 4px 8px;
+            font-size: 16px;
+        }
+        .delete-btn:hover { background: #fde0e0; }
     </style>
 </head>
 <body>
@@ -88,6 +102,7 @@
                 <th>Location</th>
                 <th>Fit</th>
                 <th>Status</th>
+                <th></th>               
             </tr>
         </thead>
         <tbody id="jobs-body"></tbody>
@@ -156,6 +171,25 @@
         }
     });
 
+    const STATUSES = ["SAVED", "APPLIED", "INTERVIEW", "REJECTED", "OFFER"];
+
+    async function updateStatus(id, newStatus) {
+        await fetch(`/api/jobs/${id}/`, {
+            method: "PATCH",                                   
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ status: newStatus }),
+        });
+        loadJobs();
+    }
+
+    async function deleteJob(id) {
+        if (!confirm("Delete this job?")) {
+            return;
+        }
+        await fetch(`/api/jobs/${id}/`, { method: "DELETE" });  
+        loadJobs();
+    }
+
     async function loadJobs() {
         const response = await fetch("/api/jobs/");     
         const jobs = await response.json();               
@@ -170,7 +204,14 @@
                     <td>${job.title}</td>
                     <td>${job.location}</td>
                     <td>${job.fit_score !== null ? job.fit_score + "%" : "-"}</td>
-                    <td class="status-${job.status}">${job.status}</td>
+                    <td>
+                        <select class="status-${job.status}" onchange="updateStatus(${job.id}, this.value)">
+                            ${STATUSES.map(s =>
+                                `<option value="${s}" ${s === job.status ? "selected" : ""}>${s}</option>`
+                            ).join("")}
+                        </select>
+                    </td>
+                    <td><button class="delete-btn" onclick="deleteJob(${job.id})">🗑</button></td>
                 </tr>
             `;
         }
