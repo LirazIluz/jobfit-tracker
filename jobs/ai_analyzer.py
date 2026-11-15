@@ -10,9 +10,16 @@ load_dotenv()
 
 MODEL = "gemini-3.5-flash-lite"
 
+MY_BACKGROUND = """Coursework: Data Structures, Algorithm Design, Operating Systems and
+System Programming, Computer Architecture, Digital Systems, Principles of Programming Languages.
+Projects: a Linux shell and ELF tools in C, a multi-threaded STOMP client-server
+(Java, C++, Python) over TCP/IP, and a Django REST web app with pytest tests,
+Docker and CI with GitHub Actions."""
+
 PROMPT = """You are helping a Computer Science student decide whether a job posting fits her.
 
 Her skills: {my_skills}
+Her background: {background}
 
 Read the job posting below and return ONLY a JSON object with these keys:
 - "location": the city of the job, or "" if not mentioned
@@ -21,6 +28,8 @@ Read the job posting below and return ONLY a JSON object with these keys:
   Do NOT include degrees, years of study or availability.
   If the posting lists alternatives (for example "Java, C++, or C#"),
   put them together as ONE item: "java / c++ / c#".
+  Include required CS fundamentals too (for example "data structures", "algorithms",
+  "operating systems").
 - "nice_to_have": list of skills marked as an advantage / nice to have
 - "skills_missing": items from required_skills that she does NOT have.
   An item with alternatives is missing ONLY if she has NONE of them.
@@ -37,9 +46,11 @@ Job posting:
 
 def analyze_with_ai(text):
     client = genai.Client(http_options=types.HttpOptions(timeout=30000))
-
-    prompt = PROMPT.format(my_skills=", ".join(MY_SKILLS), posting=text)   
-
+    prompt = PROMPT.format(
+        my_skills=", ".join(MY_SKILLS),
+        background=MY_BACKGROUND,
+        posting=text,
+    )
     response = client.models.generate_content(
         model=MODEL,
         contents=prompt,                                                      
