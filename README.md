@@ -2,7 +2,9 @@
 
 ![Tests](https://github.com/LirazIluz/jobfit-tracker/actions/workflows/tests.yml/badge.svg)
 
-A REST API for tracking job applications and analyzing job postings.
+![JobFit Tracker screenshot](docs/screenshot.png)
+
+A web app and REST API for tracking job applications and analyzing job postings.
 
 I built this project while searching for a student position: every day I received
 several job postings and had to check the location, whether it's a student role,
