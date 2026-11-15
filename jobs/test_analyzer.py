@@ -31,3 +31,6 @@ def test_c_is_not_found_inside_words():
 def test_c_is_found_as_a_word():
     result = find_skills("Knowledge in C/C++ and Python")
     assert "c" in result
+
+def test_fit_score_never_above_100():
+    assert fit_score(["c"]) == 100

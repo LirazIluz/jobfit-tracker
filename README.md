@@ -20,7 +20,7 @@ automates this.
 - **AI analysis** – an LLM (Google Gemini) reads the posting, understands alternatives ("Java, C++, or C#") and nice-to-have skills, and writes a short fit summary
 - **Auto-fill** – when a job is saved with a description, location, job type and fit score are filled automatically
 - **Web interface** – paste a job posting, see the fit analysis with colored skill tags, save it, and track all applications in a table
-- **Automated tests** – 13 tests with pytest (analyzer + API)
+- **Automated tests** – 14 tests with pytest (analyzer + API)
 
 ## Tech Stack
 

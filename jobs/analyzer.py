@@ -28,7 +28,7 @@ KNOWN_SKILLS = [
 MY_SKILLS = [
     "python", "c++", "c", "java", "typescript", "sql", "linux", "git", "docker",
     "bash", "networking", "tcp/ip", "multithreading", "oop", "rest", "django",
-    "c", "test automation", "automation", "testing", "debugging",
+    "test automation", "automation", "testing", "debugging",
     "ci/cd", "pytest", "junit", "api", "assembly",
 ]
 
@@ -68,7 +68,7 @@ def fit_score(skills_found):
     if len(skills_found) == 0:
         return 0
     count = 0
-    for skill in MY_SKILLS:
-        if skill in skills_found:
+    for skill in skills_found:
+        if skill in MY_SKILLS:
             count += 1
     return round(count / len(skills_found) * 100)

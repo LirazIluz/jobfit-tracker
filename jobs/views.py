@@ -1,6 +1,5 @@
 from rest_framework import viewsets
 from .models import JobApplication
-from .serializers import JobApplicationSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -15,7 +14,7 @@ class JobApplicationViewSet(viewsets.ModelViewSet):
     queryset = JobApplication.objects.all()
     serializer_class = JobApplicationSerializer
 
-class AnalyzeView(APIView):
+class AnalyzeView(generics.GenericAPIView):
     serializer_class = AnalyzeSerializer
     def post(self, request):
         text = request.data.get("text", "")
