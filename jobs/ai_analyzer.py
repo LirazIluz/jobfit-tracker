@@ -18,6 +18,7 @@ Read the job posting below and return ONLY a JSON object with these keys:
 - "location": the city of the job, or "" if not mentioned
 - "job_type": one of "STUDENT", "INTERNSHIP", "PART_TIME", "FULL_TIME", or ""
 - "required_skills": list of required technical skills (short, lowercase).
+  Do NOT include degrees, years of study or availability.
   If the posting lists alternatives (for example "Java, C++, or C#"),
   put them together as ONE item: "java / c++ / c#".
 - "nice_to_have": list of skills marked as an advantage / nice to have

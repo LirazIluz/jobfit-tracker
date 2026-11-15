@@ -157,20 +157,26 @@
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ text: text }),
         });
-        const data = await response.json();
+                let data;
+        try {
+            data = await response.json();
+        } catch (err) {
+            resultDiv.innerHTML = "<p>Error: the server did not return a valid answer.</p>";
+            return;
+        }
 
         if (!response.ok) {
             resultDiv.innerHTML = `<p>Error: ${data.error}</p>`;
             return;
         }
 
-        const required = data.required_skills.map(skill =>
+        const required = (data.required_skills || []).map(skill =>
             data.skills_missing.includes(skill)
                 ? `<span class="tag missing">${skill}</span>`
                 : `<span class="tag have">${skill}</span>`
         ).join("");
 
-        const nice = data.nice_to_have.map(skill =>                             
+        const nice = (data.nice_to_have || []).map(skill =>                             
             `<span class="tag nice">${skill}</span>`
         ).join("");
 

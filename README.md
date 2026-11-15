@@ -20,7 +20,7 @@ automates this.
 - **AI analysis** – an LLM (Google Gemini) reads the posting, understands alternatives ("Java, C++, or C#") and nice-to-have skills, and writes a short fit summary
 - **Auto-fill** – when a job is saved with a description, location, job type and fit score are filled automatically
 - **Web interface** – paste a job posting, see the fit analysis with colored skill tags, save it, and track all applications in a table
-- **Automated tests** – 14 tests with pytest (analyzer + API)
+- **Automated tests** – 16 tests with pytest (analyzer + API)
 
 ## Tech Stack
 
@@ -106,6 +106,10 @@ that end with non-word characters, such as `c++` and `c#`.
 
 Adding "c" as a skill revealed another bug: it was matched inside "c++".
 The tests caught it, and I fixed it by also excluding "+" and "#" after a match.
+
+Later, testing on a real job posting revealed the same bug in location detection:
+"Omer" was found inside "customers". I applied the same regex fix to
+location and job-type detection and added tests for it.
 
 ### Keyword matching vs. AI
 

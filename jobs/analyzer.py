@@ -37,7 +37,8 @@ def find_location(text):
     """Return the first city from CITIES that appears in the text, or ""."""
     text_lower = text.lower()
     for city in CITIES:
-        if city.lower() in text_lower:
+        pattern = r"(?<![a-z0-9])" + re.escape(city.lower()) + r"(?![a-z0-9])"
+        if re.search(pattern, text_lower):
             return city
     return ""
 
@@ -45,9 +46,10 @@ def find_location(text):
 def find_job_type(text):
     """Return the first job type whose keywords appear in the text, or ""."""
     text_lower = text.lower()
-    for key, words in JOB_TYPE_KEYWORDS.items():  
+    for key, words in JOB_TYPE_KEYWORDS.items():
         for word in words:
-            if word in text_lower:
+            pattern = r"(?<![a-z0-9])" + re.escape(word) + r"(?![a-z0-9])"
+            if re.search(pattern, text_lower):
                 return key
     return ""
 
