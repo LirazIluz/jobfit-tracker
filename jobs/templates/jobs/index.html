@@ -73,6 +73,10 @@
             font-size: 16px;
         }
         .delete-btn:hover { background: #fde0e0; }
+        #analyze-ai-btn { background: #7b3fe4; margin-left: 8px; }
+        #analyze-ai-btn:hover { background: #5f2bc0; }
+        .nice { background: #e8e4fb; color: #4b2a9a; }
+        .summary { background: #f4f6fb; padding: 12px; border-radius: 8px; }
     </style>
 </head>
 <body>
@@ -84,7 +88,7 @@
               placeholder="Paste a job posting here..."></textarea>
     <br>
     <button id="analyze-btn">Analyze</button>
-
+    <button id="analyze-ai-btn">✨ Analyze with AI</button>
     <div id="result"></div>
 
     <h2>Save this job</h2>
@@ -120,7 +124,7 @@
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ text: text }),
         });
-
+        
         const data = await response.json();
 
         const resultDiv = document.getElementById("result");    
@@ -141,6 +145,42 @@
             <p>📍 ${data.location || "Unknown"} &nbsp; 💼 ${data.job_type || "Unknown"}</p>
             <div>${tags}</div>
         `;
+    });
+        document.getElementById("analyze-ai-btn").addEventListener("click", async () => {
+        const text = document.getElementById("posting").value;
+        const resultDiv = document.getElementById("result");
+
+        resultDiv.innerHTML = "<p>✨ Analyzing with AI...</p>";     
+
+        const response = await fetch("/api/analyze-ai/", {                         
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ text: text }),
+        });
+        const data = await response.json();
+
+        if (!response.ok) {
+            resultDiv.innerHTML = `<p>Error: ${data.error}</p>`;
+            return;
+        }
+
+        const required = data.required_skills.map(skill =>
+            data.skills_missing.includes(skill)
+                ? `<span class="tag missing">${skill}</span>`
+                : `<span class="tag have">${skill}</span>`
+        ).join("");
+
+        const nice = data.nice_to_have.map(skill =>                             
+            `<span class="tag nice">${skill}</span>`
+        ).join("");
+
+        resultDiv.innerHTML = `
+            <p class="score">${data.fit_score}% fit ✨</p>
+            <p>📍 ${data.location || "Unknown"} &nbsp; 💼 ${data.job_type || "Unknown"}</p>
+            <p><b>Required:</b> ${required}</p>
+            <p><b>Nice to have:</b> ${nice || "-"}</p>
+            <p class="summary">${data.summary}</p>
+        `;                                                            
     });
     const saveButton = document.getElementById("save-btn");
 

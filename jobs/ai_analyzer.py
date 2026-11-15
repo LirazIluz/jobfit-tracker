@@ -24,6 +24,8 @@ Read the job posting below and return ONLY a JSON object with these keys:
 - "skills_missing": items from required_skills that she does NOT have.
   An item with alternatives is missing ONLY if she has NONE of them.
   Example: she has java, so "java / c++ / c#" is NOT missing.
+  Treat related skills as the same skill. Examples: git = version control,
+  pytest/junit = automated testing, oop = object-oriented programming.
 - "fit_score": a number 0-100, how well she fits the REQUIRED skills
 - "summary": 1-2 sentences about the role and the fit
 
