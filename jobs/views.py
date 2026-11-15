@@ -8,6 +8,7 @@ from .analyzer import find_location, find_job_type, find_skills, fit_score, MY_S
 from rest_framework import generics
 from .serializers import JobApplicationSerializer, AnalyzeSerializer
 from django.shortcuts import render
+from .ai_analyzer import analyze_with_ai
 
 
 class JobApplicationViewSet(viewsets.ModelViewSet):
@@ -41,3 +42,25 @@ class AnalyzeView(APIView):
 
 def home(request):
     return render(request, "jobs/index.html")
+
+
+class AnalyzeAIView(generics.GenericAPIView):
+    serializer_class = AnalyzeSerializer
+
+    def post(self, request):
+        text = request.data.get("text", "")
+        if not text:
+            return Response(
+                {"error": "text is required"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            result = analyze_with_ai(text)                                 
+        except Exception as e:
+            return Response(
+                {"error": f"AI analysis failed: {e}"},
+                status=status.HTTP_503_SERVICE_UNAVAILABLE,
+            )
+
+        return Response(result)
