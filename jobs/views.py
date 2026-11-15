@@ -1,6 +1,5 @@
 from rest_framework import viewsets
 from .models import JobApplication
-from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .analyzer import find_location, find_job_type, find_skills, fit_score, MY_SKILLS
