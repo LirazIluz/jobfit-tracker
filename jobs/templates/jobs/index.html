@@ -176,9 +176,12 @@
                 : `<span class="tag have">${skill}</span>`
         ).join("");
 
-        const nice = (data.nice_to_have || []).map(skill =>                             
-            `<span class="tag nice">${skill}</span>`
-        ).join("");
+        const niceMissing = (data.nice_missing || []).map(s => s.toLowerCase());
+        const nice = (data.nice_to_have || []).map(skill =>
+            niceMissing.includes(skill.toLowerCase())
+                ? `<span class="tag missing">${skill}</span>`
+                : `<span class="tag nice">${skill}</span>`
+        ).join(" ");
 
         resultDiv.innerHTML = `
             <p class="score">${data.fit_score}% fit ✨</p>

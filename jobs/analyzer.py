@@ -22,6 +22,7 @@ KNOWN_SKILLS = [
     "kubernetes", "aws", "machine learning", "embedded", "jenkins", "cmake", 
     "c", "test automation", "automation", "testing", "debugging",
     "ci/cd", "pytest", "junit", "api", "assembly", "robot framework",
+    "llm", "ai agents", "prompt engineering",
 ]
 
 # Skills I have
@@ -29,7 +30,7 @@ MY_SKILLS = [
     "python", "c++", "c", "java", "typescript", "sql", "linux", "git", "docker",
     "bash", "networking", "tcp/ip", "multithreading", "oop", "rest", "django",
     "test automation", "automation", "testing", "debugging",
-    "ci/cd", "pytest", "junit", "api", "assembly",
+    "ci/cd", "pytest", "junit", "api", "assembly","llm", "prompt engineering",
 ]
 
 
@@ -58,8 +59,9 @@ def find_skills(text):
     """Return a list of all KNOWN_SKILLS that appear in the text."""
     text_lower = text.lower()
     found = []
-    for skill in KNOWN_SKILLS: 
-        pattern = r"(?<![a-z0-9])" + re.escape(skill) + r"(?![a-z0-9+#])"
+    for skill in KNOWN_SKILLS:
+        plural = "s?" if len(skill) > 2 else ""
+        pattern = r"(?<![a-z0-9])" + re.escape(skill) + plural + r"(?![a-z0-9+#])"
         if re.search(pattern, text_lower):
             found.append(skill)
     return found

@@ -51,3 +51,8 @@ def test_location_not_found_inside_words():
 
 def test_job_type_not_found_inside_words():
     assert find_job_type("Work with internal teams") == ""
+
+
+def test_find_skills_plural():
+    assert "api" in find_skills("Working with APIs and integrations")
+    assert "c" not in find_skills("BSc in CS")
