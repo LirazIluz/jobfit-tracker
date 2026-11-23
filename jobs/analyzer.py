@@ -27,12 +27,11 @@ KNOWN_SKILLS = [
 
 # Skills I have
 MY_SKILLS = [
-    "python", "c++", "c", "java", "typescript", "sql", "linux", "git", "docker",
+    "python", "c++", "c", "java", "javascript", "typescript", "sql", "linux", "git", "docker",
     "bash", "networking", "tcp/ip", "multithreading", "oop", "rest", "django",
     "test automation", "automation", "testing", "debugging",
-    "ci/cd", "pytest", "junit", "api", "assembly","llm", "prompt engineering",
+    "ci/cd", "pytest", "junit", "api", "assembly", "llm", "prompt engineering",
 ]
-
 
 def find_location(text):
     """Return the first city from CITIES that appears in the text, or ""."""
